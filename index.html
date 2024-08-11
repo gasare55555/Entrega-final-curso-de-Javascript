@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./styles.css">
+    <title>Gestor de Tareas</title>
+</head>
+
+<body class="bg-light">
+    <!-- Navigation -->
+    <header>
+        <div class="card">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark p-3" data-bs-theme="dark">
+                <div class="container">
+                    <a class="navbar-brand" href="#">Gestor de Tareas</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="./index.html">Añadir Tarea</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./pages/search.html">Buscar Tarea</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- APPLICATION -->
+    <main>
+        <div class="container-fluid">
+            <div class="row pt-4">
+                
+                <!-- FORM -->
+                <div class="col-md-5 col-lg-4">
+                    <div class="card text-bg-dark mb-4 p-2">
+                    
+                        <form id="task-form" class="card-body p-4">
+                            <h1 class="card-title text-center pb-3">
+                                Agregar una tarea
+                            </h1>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Título</label>
+                                <input type="text" id="title" name="title" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label for="description" class="form-label">Descripción</label>
+                                    <span id="description-help" class="form-text text-bg-dark me-2">* opcional</span>
+                                </div>
+                                <textarea id="description" name="description" class="form-control" rows="3" aria-describedby="description-help"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label for="datetime" class="form-label">Fecha y hora</label>
+                                    <span id="datetime-help" class="form-text text-bg-dark me-2">* opcional</span>
+                                </div>
+                                <input type="datetime-local" id="datetime" name="datetime" class="form-control" aria-describedby="datetime-help">
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label for="place" class="form-label">Lugar</label>
+                                    <span id="place-help" class="form-text text-bg-dark me-2">* opcional</span>
+                                </div>
+                                <textarea id="place" name="place" class="form-control" rows="1" aria-describedby="place-help"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label for="people" class="form-label">Personas</label>
+                                    <span id="people-help" class="form-text text-bg-dark me-2">* opcional</span>
+                                </div>
+                                <textarea id="people" name="people" class="form-control" aria-describedby="people-help"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <label for="materials" class="form-label">Materiales</label>
+                                    <span id="materials-help" class="form-text text-bg-dark me-2">* opcional</span>
+                                </div>
+                                <textarea id="materials" name="materials" class="form-control" aria-describedby="materials-help"></textarea>
+                            </div>
+                            <div class="text-center p-3 mb-1">
+                                <h3 class="card-title">
+                                    Agregar una alarma
+                                </h3>
+                                <div class="form-text text-bg-dark">
+                                    * opcional
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="alarm-datetime" class="form-label">Fecha y hora</label>
+                                <input type="datetime-local" id="alarm-datetime" name="alarm-datetime" class="form-control">
+                            </div>
+                            <div style="margin-bottom: 2.5rem;">
+                                <select id="select-alarm" class="form-select mb-3" name="select-alarm" aria-label="Select alarm sound">
+                                    <option value="" selected>Elija el sonido de la alarma</option>
+                                    <option value="0">Sonido de alarma beep</option>
+                                    <option value="1">Sonido de alarma fuerte</option>
+                                    <option value="2">Música de alarma tranquila</option>
+                                    <option value="3">Sonido de alarma natural</option>
+                                    <option value="4">Please be alarmed</option>
+                                </select>
+                                <div class="d-flex justify-content-center">
+                                    <audio class="alarm-player border rounded-4 bg-light"></audio>
+                                    <audio class="alarm-player border rounded-4 bg-light"></audio>
+                                    <audio class="alarm-player border rounded-4 bg-light"></audio>
+                                    <audio class="alarm-player border rounded-4 bg-light"></audio>
+                                    <audio class="alarm-player border rounded-4 bg-light"></audio>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <input type="submit" value="Guardar" class="btn btn-light w-100">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+    
+                <!-- TASKS LIST -->
+                <div class="col-md-7 col-lg-8" id="tasks-container" >
+                    <!-- Generado en JS -->
+                </div>
+    
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="./scripts/common-resources.js"></script>
+    <script src="./scripts/main.js"></script>    
+    <script src="./scripts/common-listeners.js"></script>
+</body>
+
+</html>

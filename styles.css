@@ -1,0 +1,29 @@
+* {
+    padding: 0;
+    margin: 0;
+    max-width: 1440px;
+}
+
+html {
+    margin-inline: auto;
+}
+
+.navbar-brand {
+    font-size: larger;
+    margin-left:calc(50% - 80px);
+}
+.navbar-nav {
+    font-size: larger;
+}
+
+#App h1 {
+    font-size: xx-large;
+}
+
+#search-label {
+    font-size: xx-large;
+}
+
+.input-group-text {
+    padding: 14px 18px;
+}
