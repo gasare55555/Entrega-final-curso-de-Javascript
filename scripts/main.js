@@ -1,10 +1,11 @@
     
-    // acá va common-resources script
+    // arriba va common-resources script
 
     // variables globales de main page 
 const taskForm = document.getElementById('task-form');
 const tasksContainer = document.getElementById("tasks-container");
 const selectAlarm = document.getElementById("select-alarm");
+let alarmIndex = selectAlarm.value;
 
     // Clase del Objeto Task: con propiedades y métodos específicos.
 class Task {
@@ -14,8 +15,8 @@ class Task {
         this.datetimeStr = form.get("datetime");
         this.dateStr = this.datetimeStr && this.datetimeStr.split("T")[0];
         this.timeStr = this.datetimeStr && this.datetimeStr.split("T")[1];
-        [this.year, this.month, this.day] = this.processDate();
-        [this.hour, this.minute] = this.processTime();
+        [this.year, this.month, this.day] = this.dateStr && this.processDate();
+        [this.hour, this.minute] = this.timeStr && this.processTime();
         this.dateObj = this.processDateObj();
         this.place = form.get("place");
         this.people = form.get("people");
@@ -38,7 +39,7 @@ class Task {
     }
     processDateObj() {
         if (this.datetimeStr) {
-            return new Date(this.year, this.month-1, this.day, this.hour, this.minute);
+            return new Date(this.datetimeStr);
         }
     }
     processAlarmDateObj() {
@@ -152,6 +153,7 @@ function showTasks(tasks) {
     });
 }
 
+    //Función para establecer la alarma de la tarea recién agregada
 function setAlarm(task) {
     if (calculateDelay(task) > 0) {
         setTimeout(() => {
@@ -169,23 +171,30 @@ function getRandomId() {
 }
 
     // Listeners
- 
+    //Listener para disparar la carga del elemento audio correspondiente a la opción seleccionada
 selectAlarm.addEventListener("change", (e) => {
-    for (const alarmPlayer of alarmPlayers) {
-        if (alarmPlayer.controls) {
-            alarmPlayer.controls = false;
-            alarmPlayer.pause();
-            alarmPlayer.currentTime = 0;
-        }
+    if (alarmIndex) {
+        alarmPlayers[alarmIndex].controls = false;  //opción seleccionada previamente
+        alarmPlayers[alarmIndex].pause();
+        alarmPlayers[alarmIndex].currentTime = 0;
     }
-    const index = e.target.value;
-    alarmPlayers[index].controls = true;
+    
+    alarmIndex = e.target.value;  //opción seleccionada actualmente
+    if (alarmIndex) {
+        alarmPlayers[alarmIndex].controls = true;
+        alarmPlayers[alarmIndex].play();
+    }
 });
 
-   // Función para guardar tareas en tasks, en el storage y para actualizar display
+   // Listener para disparar la creación de tareas, guardarlas en tasks, en el storage y para actualizar display
 taskForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    if (alarmIndex) {
+        alarmPlayers[alarmIndex].controls = false;  //opción seleccionada actualmente
+        alarmPlayers[alarmIndex].pause();
+        alarmPlayers[alarmIndex].currentTime = 0;
+    }
     const form = new FormData(taskForm);
     const task = createTask(form);
     addTask(task);
@@ -195,4 +204,4 @@ taskForm.addEventListener("submit", (e) => {
     setAlarm(task);
 });
 
-    // Acá va common-listeners script
+    // Abajo va common-listeners script

@@ -1,5 +1,5 @@
 
-    // Función para borrar tareas de tasks, del storage y para actualizar display
+    // Listener para disparar el borrado de tareas, de tasks y del storage, y para actualizar display
 tasksContainer.addEventListener('click', (e) => {
     // Ejecuta solo si presionamos en el botón borrar y para la propagación del evento en el bubbling phase.
     if (e.target.className.includes("btn")){
@@ -10,7 +10,7 @@ tasksContainer.addEventListener('click', (e) => {
     }
 });
 
-    // Función para recuperar los datos del storage y actualizar el display
+    // Listener para disparar la recuperación de los datos del storage y actualizar el display
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("tasks")) {
         tasks = JSON.parse(localStorage.getItem("tasks"));

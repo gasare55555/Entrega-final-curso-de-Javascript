@@ -1,5 +1,5 @@
     
-    // acá va common-resources script
+    // arriba va common-resources script
 
     // variables globales de search page
 const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
@@ -8,29 +8,37 @@ const searchForm = document.getElementById("search-form");
 const tasksContainer = document.getElementById("tasks-container");
 let searchResult = [];
 
-
+    // funciones
+    // función para buscar las tareas de acuerdo a múltiples criterios
 function searchTasks() {
     let searchValue = searchInput.value;
 
     if (searchValue) {
         searchValue = searchValue.toLowerCase();
         searchResult = tasks.filter((task) => {
-            return task.title.toLowerCase().includes(searchValue) || task.description.toLowerCase().includes(searchValue) || task.dateObj.toLocaleDateString() == searchValue || convertMonth(task.month) == searchValue || task.year == searchValue || task.hour == searchValue || task.place.toLowerCase().includes(searchValue) || task.people.toLowerCase().includes(searchValue) || task.materials.toLowerCase().includes(searchValue)
+            return task.title.toLowerCase().includes(searchValue) || task.description.toLowerCase().includes(searchValue) || (task.dateObj && task.dateObj.toLocaleDateString() == searchValue) || (task.month && convertMonth(task.month) == searchValue) || task.year == searchValue || task.hour == searchValue || task.place.toLowerCase().includes(searchValue) || task.people.toLowerCase().includes(searchValue) || task.materials.toLowerCase().includes(searchValue)
         });
 
         searchInput.value = "";  // reseteamos el input
         searchResult.length == 0 && function (){
-            alert("No hubieron coincidencias");
+            Swal.fire({
+                title: "No hubieron coincidencias",
+                icon: "error"
+              });
             tasksContainer.innerHTML = '';
             }();
         searchResult.length != 0 && showTasks();  
 
     } else {
-        alert("El valor ingresado no es correcto");
+        Swal.fire({
+            title: "El valor ingresado no es correcto",
+            icon: "error"
+          });
         tasksContainer.innerHTML = '';
     }    
 }
 
+    //Función para mostrar las tareas encontradas
 function showTasks() {
     tasksContainer.innerHTML = '';  // Reseteamos el contenedor de las tareas 
     counterColors = -1; // Reseteamos el orden de los colores
@@ -58,7 +66,7 @@ function showTasks() {
                             </li>
                         `);
 
-        taskItems.innerHTML += `
+        task.dateObj && (taskItems.innerHTML += `
                             <li class="list-group-item ${color}">
                                 <h5 class="card-title">Fecha</h5>
                                 <p class="card-text">${task.dateObj.toLocaleDateString()}</p>
@@ -67,7 +75,7 @@ function showTasks() {
                                 <h5 class="card-title">Hora</h5>
                                 <p class="card-text">${task.dateObj.toLocaleTimeString()}</p>
                             </li>
-                        `
+                        `);
 
         task.place && (taskItems.innerHTML += `
                             <li class="list-group-item ${color}">
@@ -87,6 +95,13 @@ function showTasks() {
                             <li class="list-group-item ${color}">
                                 <h5 class="card-title">Materiales</h5>
                                 <p class="card-text">${task.materials}</p>
+                            </li>
+                        `);
+
+        task.alarmDateObj && (taskItems.innerHTML += `
+                            <li class="list-group-item ${color}">
+                                <h5 class="card-title">Alarma</h5>
+                                <p class="card-text">${task.alarmDateObj.toLocaleString()}</p>
                             </li>
                         `);
 
@@ -115,11 +130,12 @@ function deleteTask(id) {
 
 
     // Listeners
+    // Listener para disparar la búsqueda de las tareas
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     searchTasks();
     const taskCard = document.getElementsByClassName("card p-3 h-100")[0]; 
-    taskCard.scrollIntoView(); // para hacer scroll hacia la primera tarea desplegada
-})
+    taskCard && taskCard.scrollIntoView(); // para hacer scroll hacia la primera tarea desplegada
+});
 
-    // Acá va common-listeners script
+    // Abajo va common-listeners script

@@ -6,34 +6,38 @@ const bootstrapColors = ["text-bg-primary", "text-bg-success", "text-bg-danger"]
 let counterColors = -1;
 
 const APIKEY = "WqH2tiQ4KnqLXBjOegB3JhanztNAGi7Z2V0E9zPP";
-const selectOptionSounds = [{id: 233645, description: "Beeping alarm sound"},
-                            {id: 128138, description: "Loud alarm sound"},
-                            {id: 246390, description: "Calm music alarm"},
-                            {id: 626193, description: "Natural alarm sound"},
-                            {id: 153316, description: "Please be alarmed"}                  
+const selectSounds = [{id: 233645, description: "Beeping alarm sound"},
+                      {id: 128138, description: "Loud alarm sound"},
+                      {id: 246390, description: "Calm music alarm"},
+                      {id: 626193, description: "Natural alarm sound"},
+                      {id: 153316, description: "Please be alarmed"}                  
 ];
-let alarmPlayers = document.getElementsByClassName("alarm-player");
-let soundInstances = [];
+const alarmPlayers = document.getElementsByClassName("alarm-player");
+const soundInstances = [];
 
 
+    //Función para cambiar de color las tarjetas
 function traverseColors() {
     counterColors++;
     counterColors > 2 && (counterColors = 0);
     return bootstrapColors[counterColors];
 }
 
+    //Función para establecer el tiempo en el que tiene que sonar la alarma de la tarea
 function calculateDelay(task) {
-    return Date.parse(task.alarmDateTimeStr) - Date.now();
+    return task.alarmDateObj.getTime() - Date.now();
 }
 
+    //Función para realizar múltiples peticiones fetch simultáneas
 function fetchSoundInstances() {
-    selectOptionSounds.forEach((selectOptionSound, index) => {
-        loadAlarms(selectOptionSound, index); 
+    selectSounds.forEach((selectSound, index) => {
+        loadSounds(selectSound, index); 
     })
 }
 
-async function loadAlarms(selectOptionSound, index) {
-    const response = await fetch(`https://freesound.org/apiv2/sounds/${selectOptionSound.id}/?token=${APIKEY}`);
+    //Función para cargar los sonidos en los elementos audio
+async function loadSounds(selectSound, index) {
+    const response = await fetch(`https://freesound.org/apiv2/sounds/${selectSound.id}/?token=${APIKEY}`);
     const soundInstance = await response.json();
     const soundUrl = soundInstance.previews["preview-hq-mp3"];
     alarmPlayers[index].src = soundUrl;
@@ -41,9 +45,10 @@ async function loadAlarms(selectOptionSound, index) {
     console.log(soundInstance);
 }
 
+    //Función para establecer las alarmas de las tareas cada vez que se cargue el DOM
 function setAlarms() {
     tasks.forEach((task) => {
-        if (calculateDelay(task) > 0) {
+        if (task.alarmDateObj && calculateDelay(task) > 0) {
             setTimeout(() => {
                 triggerAlarm(task);
             }, calculateDelay(task));
@@ -51,6 +56,7 @@ function setAlarms() {
     });
 }
 
+    //Función para desplegar una sweetalert y un sonido de alarma
 function triggerAlarm(task) {
         task.alarmSound && alarmPlayers[task.alarmSound].play();
         Swal.fire({
