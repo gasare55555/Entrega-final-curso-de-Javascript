@@ -8,7 +8,6 @@ const searchForm = document.getElementById("search-form");
 const tasksContainer = document.getElementById("tasks-container");
 let searchResult = [];
 
-    // funciones
     // función para buscar las tareas de acuerdo a múltiples criterios
 function searchTasks() {
     let searchValue = searchInput.value;
@@ -20,22 +19,17 @@ function searchTasks() {
         });
 
         searchInput.value = "";  // reseteamos el input
-        searchResult.length == 0 && function (){
+
+        searchResult.length == 0 && function () {
             Swal.fire({
                 title: "No hubieron coincidencias",
                 icon: "error"
               });
-            tasksContainer.innerHTML = '';
+            tasksContainer.innerHTML = '';  // reseteamos el display
             }();
-        searchResult.length != 0 && showTasks();  
 
-    } else {
-        Swal.fire({
-            title: "El valor ingresado no es correcto",
-            icon: "error"
-          });
-        tasksContainer.innerHTML = '';
-    }    
+        searchResult.length != 0 && showTasks();  
+    } 
 }
 
     //Función para mostrar las tareas encontradas

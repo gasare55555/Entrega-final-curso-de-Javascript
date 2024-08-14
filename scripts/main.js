@@ -155,7 +155,7 @@ function showTasks(tasks) {
 
     //Función para establecer la alarma de la tarea recién agregada
 function setAlarm(task) {
-    if (calculateDelay(task) > 0) {
+    if (task.alarmDateObj && calculateDelay(task) > 0) {
         setTimeout(() => {
             triggerAlarm(task);
         }, calculateDelay(task));

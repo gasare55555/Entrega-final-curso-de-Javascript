@@ -1,5 +1,6 @@
 
     // Recursos globales comunes
+    // Variables globales comunes
 let tasks = [];
 let counterTasks = 0;
 const bootstrapColors = ["text-bg-primary", "text-bg-success", "text-bg-danger"];
@@ -10,7 +11,9 @@ const selectSounds = [{id: 233645, description: "Beeping alarm sound"},
                       {id: 128138, description: "Loud alarm sound"},
                       {id: 246390, description: "Calm music alarm"},
                       {id: 626193, description: "Natural alarm sound"},
-                      {id: 153316, description: "Please be alarmed"}                  
+                      {id: 153316, description: "Please be alarmed"},
+                      {id: 544019, description: "Cuban mambo alarm"},
+                      {id: 717086, description: "Beethoven style alarm"}                  
 ];
 const alarmPlayers = document.getElementsByClassName("alarm-player");
 const soundInstances = [];
@@ -37,12 +40,19 @@ function fetchSoundInstances() {
 
     //Función para cargar los sonidos en los elementos audio
 async function loadSounds(selectSound, index) {
-    const response = await fetch(`https://freesound.org/apiv2/sounds/${selectSound.id}/?token=${APIKEY}`);
-    const soundInstance = await response.json();
-    const soundUrl = soundInstance.previews["preview-hq-mp3"];
-    alarmPlayers[index].src = soundUrl;
-    soundInstances[index] = soundInstance;
-    console.log(soundInstance);
+    try {
+        const response = await fetch(`https://freesound.org/apiv2/sounds/${selectSound.id}/?token=${APIKEY}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error, status: ${response.status}`);
+        } 
+        const soundInstance = await response.json();
+        const soundUrl = soundInstance.previews["preview-hq-mp3"];
+        alarmPlayers[index].src = soundUrl;
+        soundInstances[index] = soundInstance;
+        console.log(soundInstance);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
 }
 
     //Función para establecer las alarmas de las tareas cada vez que se cargue el DOM
