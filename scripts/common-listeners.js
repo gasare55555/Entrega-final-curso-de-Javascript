@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
              
         document.title == "Gestor de Tareas" && showTasks(tasks);
-        fetchSoundInstances();
         setAlarms();
     }
+
+    fetchSoundInstances();  // para cargar los sonidos cada vez que inicie la página
 });

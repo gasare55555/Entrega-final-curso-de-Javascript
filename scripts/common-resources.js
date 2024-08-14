@@ -7,10 +7,10 @@ const bootstrapColors = ["text-bg-primary", "text-bg-success", "text-bg-danger"]
 let counterColors = -1;
 
 const APIKEY = "WqH2tiQ4KnqLXBjOegB3JhanztNAGi7Z2V0E9zPP";
-const selectSounds = [{id: 233645, description: "Beeping alarm sound"},
+const selectSounds = [{id: 210612, description: "Beeping alarm sound"},
                       {id: 128138, description: "Loud alarm sound"},
-                      {id: 246390, description: "Calm music alarm"},
-                      {id: 626193, description: "Natural alarm sound"},
+                      {id: 679738, description: "Calm music alarm"},
+                      {id: 693304, description: "Natural alarm sound"},
                       {id: 153316, description: "Please be alarmed"},
                       {id: 579575, description: "Dance style alarm"},
                       {id: 528648, description: "Beethoven style alarm"}                  
